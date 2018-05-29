@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>合成事件</title>
+<style>
+	.big {
+		width: 250px;
+		height: 250px;
+	}
+</style>
+<script src="../js/jquery-1.11.1.js"></script>
+<script>
+	$(function(){
+		//给图片绑定悬停事件
+		$("img").hover(
+			function(){
+				//$(this).attr("class","big");
+				//$(this).css("width","250px");
+				//$(this).width(250)
+				$(this).addClass("big");
+				//$(this).toggleClass("big")
+			},//悬停时
+			function(){
+				$(this).removeClass("big");
+			} //离开时
+		);
+		//让图片在显示与隐藏之间自动切换
+		setInterval(function(){
+			$("img").toggle();
+		},1000);
+	});
+</script>
+</head>
+<body>
+	<p>
+		<img src="../images/01.jpg"/>
+		<img src="../images/02.jpg"/>
+		<img src="../images/03.jpg"/>
+	</p>
+</body>
+</html>
+
+
+
+
+

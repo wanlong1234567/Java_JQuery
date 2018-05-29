@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>动画</title>
+<style>
+	#d1 {
+		width: 200px;
+		height: 200px;
+		background-color: red;
+	}
+	#d2 {
+		width: 100px;
+		text-align: center;
+		border: 1px solid red;
+		margin: 20px auto;
+		display: none;
+	}
+	/*自定义动画的底层是由定时器不断修改偏移量实现的,
+		所以它是基于相对、绝对、固定定位的.*/
+	#d1 {
+		position: relative;
+	}
+	#d3 {
+		width: 300px;
+		height: 400px;
+		background-color: red;
+		position: fixed;
+		top: 100px;
+		right: -270px;
+	}
+</style>
+<script src="../js/jquery-1.11.1.js"></script>
+<script>
+	function f1() {
+		$("#d1").show(2000);
+	}
+	function f2() {
+		//参数2是函数,hide方法会在动画完成后自动调用该函数.
+		//像参数2这样的,在某任务完成后被自动调用的函数,
+		//称之为回调函数.
+		$("#d1").hide(2000,function(){
+			console.log("完成");
+		});
+		//动画底层是由定时器不断修改样式实现的.
+		//而定时器相当于支线程,当前方法f2相当于主线程.
+		//二者是并发执行的,所以主线程在启动定时器后,
+		//不会等待,而是立刻输出了over.定时器却在2秒后才完成.
+		console.log("over");
+	}
+	function f3() {
+		$("#d2").fadeIn(600,function(){
+			setTimeout(function(){
+				$("#d2").fadeOut(800);
+			},1500);
+		});
+	}
+	$(function(){
+		//给div绑定悬停事件
+		$("#d1").hover(
+			function(){
+				$(this).animate({"left":"50px"},600);
+			},
+			function(){
+				$(this).animate({"left":"0"},600);
+			}
+		);
+		$("#d3").hover(
+			function(){
+				$(this).animate({"right":"0"},600);
+			},
+			function(){
+				$(this).animate({"right":"-270px"},600);
+			}
+		);
+	});
+</script>
+</head>
+<body>
+	<p>
+		<input type="button" value="显示" onclick="f1();"/>
+		<input type="button" value="隐藏" onclick="f2();"/>
+		<input type="button" value="删除" onclick="f3();"/>
+	</p>
+	<div id="d1"></div>
+	<div id="d2">删除成功!</div>
+	<div id="d3"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
